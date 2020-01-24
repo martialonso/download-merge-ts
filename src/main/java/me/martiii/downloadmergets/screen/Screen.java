@@ -17,7 +17,8 @@ public class Screen extends JFrame {
 
         setResizable(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 500);
+        setSize(520, 400);
+        setMinimumSize(new Dimension(520, 400));
         setVisible(true);
     }
 }
