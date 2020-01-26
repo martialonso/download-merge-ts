@@ -7,6 +7,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.io.File;
 
 public class ParametersPanel extends JPanel {
     private DownloadMergeTS downloadMergeTS;
@@ -113,7 +114,15 @@ public class ParametersPanel extends JPanel {
         oc.gridx = 1;
         outputPanel.add(outputTextField, oc);
 
+        JFileChooser browseFileChooser = new JFileChooser();
+        browseFileChooser.setSelectedFile(new File("output.mp4"));
         JButton browseButton = new JButton("Browse");
+        browseButton.addActionListener(actionEvent -> {
+            int result = browseFileChooser.showSaveDialog(this);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                outputTextField.setText(browseFileChooser.getSelectedFile().toString());
+            }
+        });
         oc.gridx = 2;
         oc.weightx = 0;
         outputPanel.add(browseButton, oc);
