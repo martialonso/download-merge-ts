@@ -40,6 +40,7 @@ public class DownloadThread extends Thread {
             }
             if (url != null) {
                 try {
+                    downloadMergeTS.log("Downloading " + url + "...");
                     InputStream in = new URL(url).openStream();
                     Matcher matcher = fileNamePattern.matcher(url);
                     if (matcher.find()) {

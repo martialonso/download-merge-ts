@@ -8,6 +8,7 @@ import java.awt.*;
 public class Screen extends JFrame {
     private DownloadMergeTS downloadMergeTS;
     private OutputPanel outputPanel;
+    private ParametersPanel parametersPanel;
 
     public Screen(DownloadMergeTS downloadMergeTS) {
         super("DownloadMergeTS");
@@ -15,7 +16,7 @@ public class Screen extends JFrame {
 
         setLayout(new BorderLayout());
 
-        ParametersPanel parametersPanel = new ParametersPanel(downloadMergeTS);
+        parametersPanel = new ParametersPanel(downloadMergeTS);
         add(parametersPanel, BorderLayout.NORTH);
 
         outputPanel = new OutputPanel();
@@ -28,7 +29,11 @@ public class Screen extends JFrame {
         setVisible(true);
     }
 
-    public void appendToLog(String msg) {
-        outputPanel.appendToLog(msg);
+    public OutputPanel getOutputPanel() {
+        return outputPanel;
+    }
+
+    public ParametersPanel getParametersPanel() {
+        return parametersPanel;
     }
 }

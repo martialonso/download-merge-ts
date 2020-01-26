@@ -10,6 +10,7 @@ import java.awt.*;
 
 public class ParametersPanel extends JPanel {
     private DownloadMergeTS downloadMergeTS;
+    private JButton startButton;
 
     public ParametersPanel(DownloadMergeTS downloadMergeTS) {
         this.downloadMergeTS = downloadMergeTS;
@@ -123,13 +124,14 @@ public class ParametersPanel extends JPanel {
         pc.gridy = 2;
         add(outputPanel, pc);
 
-        JButton startButton = new JButton("Download and merge");
+        startButton = new JButton("Download and merge");
         startButton.addActionListener(actionEvent -> {
             if (!urlTextField.getText().isEmpty()) {
                 if (!outputTextField.getText().isEmpty()) {
-                        downloadMergeTS.downloadAndMerge(urlTextField.getText(), (int) startSpinner.getValue(),
-                                (int) endSpinner.getValue(), (int) stepSpinner.getValue(), formatTextField.getText(),
-                                outputTextField.getText());
+                    startButton.setEnabled(false);
+                    downloadMergeTS.downloadAndMerge(urlTextField.getText(), (int) startSpinner.getValue(),
+                            (int) endSpinner.getValue(), (int) stepSpinner.getValue(), formatTextField.getText(),
+                            outputTextField.getText());
                 } else {
                     JOptionPane.showMessageDialog(downloadMergeTS.getScreen(), "Output cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -144,5 +146,9 @@ public class ParametersPanel extends JPanel {
         pc.anchor = GridBagConstraints.LINE_END;
         pc.insets = new Insets(2, 2, 2, 2);
         add(startButton, pc);
+    }
+
+    public void enableStartButton() {
+        startButton.setEnabled(true);
     }
 }
