@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.DefaultCaret;
 import java.awt.*;
 
 public class OutputPanel extends JPanel {
@@ -16,11 +17,13 @@ public class OutputPanel extends JPanel {
 
         outputTextArea = new JTextArea();
         outputTextArea.setEditable(false);
+        DefaultCaret caret = (DefaultCaret) outputTextArea.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
         JScrollPane scrollPane = new JScrollPane(outputTextArea);
         add(scrollPane, BorderLayout.CENTER);
     }
 
     public void appendToLog(String msg) {
-        outputTextArea.append(msg);
+        outputTextArea.append(msg + "\n");
     }
 }

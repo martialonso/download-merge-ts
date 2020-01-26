@@ -14,7 +14,6 @@ import java.util.regex.Pattern;
 
 public class DownloadThread extends Thread {
     private DownloadMergeTS downloadMergeTS;
-    private volatile boolean closed;
     private List<String> toDownload;
     private Callback callback;
     private File downloadDir;
@@ -32,7 +31,7 @@ public class DownloadThread extends Thread {
 
     @Override
     public void run() {
-        while (!closed) {
+        while (true) {
             String url = null;
             synchronized (this) {
                 if (!toDownload.isEmpty()) {
@@ -72,10 +71,6 @@ public class DownloadThread extends Thread {
         if (waiting) {
             notify();
         }
-    }
-
-    public void close() {
-        closed = true;
     }
 
     public interface Callback {

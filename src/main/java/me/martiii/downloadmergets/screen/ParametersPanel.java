@@ -1,5 +1,7 @@
 package me.martiii.downloadmergets.screen;
 
+import me.martiii.downloadmergets.DownloadMergeTS;
+
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -7,7 +9,10 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 public class ParametersPanel extends JPanel {
-    public ParametersPanel() {
+    private DownloadMergeTS downloadMergeTS;
+
+    public ParametersPanel(DownloadMergeTS downloadMergeTS) {
+        this.downloadMergeTS = downloadMergeTS;
         setBorder(new CompoundBorder(new EmptyBorder(5, 5, 5, 5),
                 new CompoundBorder(new TitledBorder("Parameters"), new EmptyBorder(5, 5, 5, 5))));
         setLayout(new GridBagLayout());
@@ -37,53 +42,53 @@ public class ParametersPanel extends JPanel {
         add(urlPanel, pc);
 
         JPanel rangePanel = new JPanel(new GridBagLayout());
-        GridBagConstraints rp = new GridBagConstraints();
+        GridBagConstraints rc = new GridBagConstraints();
         Insets defInsets = new Insets(2, 2, 2, 2);
         Insets extraInsets = new Insets(2, 20, 2, 2);
-        rp.insets = defInsets;
+        rc.insets = defInsets;
+        rc.weightx = 1;
 
         JLabel startLabel = new JLabel("Start: ");
-        rp.gridx = 0;
-        rp.gridy = 0;
-        rangePanel.add(startLabel, rp);
+        rc.gridx = 0;
+        rc.gridy = 0;
+        rangePanel.add(startLabel, rc);
 
         JSpinner startSpinner = new JSpinner(new SpinnerNumberModel(0, 0, null, 1));
         ((JSpinner.DefaultEditor) startSpinner.getEditor()).getTextField().setColumns(4);
-        rp.gridx = 1;
-        rangePanel.add(startSpinner, rp);
+        rc.gridx = 1;
+        rangePanel.add(startSpinner, rc);
 
         JLabel endLabel = new JLabel("End: ");
-        rp.gridx = 2;
-        rp.insets = extraInsets;
-        rangePanel.add(endLabel, rp);
+        rc.gridx = 2;
+        rc.insets = extraInsets;
+        rangePanel.add(endLabel, rc);
 
         JSpinner endSpinner = new JSpinner(new SpinnerNumberModel(100, 0, null, 1));
         ((JSpinner.DefaultEditor) endSpinner.getEditor()).getTextField().setColumns(4);
-        rp.gridx = 3;
-        rp.insets = defInsets;
-        rangePanel.add(endSpinner, rp);
+        rc.gridx = 3;
+        rc.insets = defInsets;
+        rangePanel.add(endSpinner, rc);
 
         JLabel stepLabel = new JLabel("Step: ");
-        rp.gridx = 4;
-        rp.insets = extraInsets;
-        rangePanel.add(stepLabel, rp);
+        rc.gridx = 4;
+        rc.insets = extraInsets;
+        rangePanel.add(stepLabel, rc);
 
         JSpinner stepSpinner = new JSpinner(new SpinnerNumberModel(1, 0, null, 1));
         ((JSpinner.DefaultEditor) stepSpinner.getEditor()).getTextField().setColumns(4);
-        rp.gridx = 5;
-        rp.insets = defInsets;
-        rangePanel.add(stepSpinner, rp);
+        rc.gridx = 5;
+        rc.insets = defInsets;
+        rangePanel.add(stepSpinner, rc);
 
-        JLabel digitsLabel = new JLabel("Digits: ");
-        rp.gridx = 6;
-        rp.insets = extraInsets;
-        rangePanel.add(digitsLabel, rp);
+        JLabel formatLabel = new JLabel("Format: ");
+        rc.gridx = 6;
+        rc.insets = extraInsets;
+        rangePanel.add(formatLabel, rc);
 
-        JSpinner digitSpinner = new JSpinner(new SpinnerNumberModel(0, 0, null, 1));
-        ((JSpinner.DefaultEditor) digitSpinner.getEditor()).getTextField().setColumns(4);
-        rp.gridx = 7;
-        rp.insets = defInsets;
-        rangePanel.add(digitSpinner, rp);
+        JTextField formatTextField = new JTextField("%01d", 4);
+        rc.gridx = 7;
+        rc.insets = defInsets;
+        rangePanel.add(formatTextField, rc);
 
         pc.fill = GridBagConstraints.NONE;
         pc.weightx = 0;
@@ -119,6 +124,19 @@ public class ParametersPanel extends JPanel {
         add(outputPanel, pc);
 
         JButton startButton = new JButton("Download and merge");
+        startButton.addActionListener(actionEvent -> {
+            if (!urlTextField.getText().isEmpty()) {
+                if (!outputTextField.getText().isEmpty()) {
+                        downloadMergeTS.downloadAndMerge(urlTextField.getText(), (int) startSpinner.getValue(),
+                                (int) endSpinner.getValue(), (int) stepSpinner.getValue(), formatTextField.getText(),
+                                outputTextField.getText());
+                } else {
+                    JOptionPane.showMessageDialog(downloadMergeTS.getScreen(), "Output cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(downloadMergeTS.getScreen(), "URL cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
         pc.fill = GridBagConstraints.NONE;
         pc.weightx = 0;
         pc.gridx = 0;

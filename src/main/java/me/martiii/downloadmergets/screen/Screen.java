@@ -1,17 +1,21 @@
 package me.martiii.downloadmergets.screen;
 
+import me.martiii.downloadmergets.DownloadMergeTS;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class Screen extends JFrame {
+    private DownloadMergeTS downloadMergeTS;
     private OutputPanel outputPanel;
 
-    public Screen() {
+    public Screen(DownloadMergeTS downloadMergeTS) {
         super("DownloadMergeTS");
+        this.downloadMergeTS = downloadMergeTS;
 
         setLayout(new BorderLayout());
 
-        ParametersPanel parametersPanel = new ParametersPanel();
+        ParametersPanel parametersPanel = new ParametersPanel(downloadMergeTS);
         add(parametersPanel, BorderLayout.NORTH);
 
         outputPanel = new OutputPanel();
