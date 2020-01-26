@@ -36,8 +36,7 @@ public class MergeThread extends Thread {
                     out.close();
 
                     downloadMergeTS.log("Merging downloaded videos...");
-
-                    FFmpeg ffmpeg = new FFmpeg("src/main/resources/bin/ffmpeg.exe");
+                    FFmpeg ffmpeg = new FFmpeg("DownloadMergeTS/bin/ffmpeg.exe");
                     FFmpegBuilder builder = new FFmpegBuilder()
                             .setInput(listFile.getAbsolutePath())
                             .setFormat("concat")
@@ -60,7 +59,7 @@ public class MergeThread extends Thread {
                     callback.merged(output);
 
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    downloadMergeTS.log(e.toString());
                 }
             }
             synchronized (this) {
@@ -83,6 +82,12 @@ public class MergeThread extends Thread {
     public void merge(String lastUrl, String output) {
         this.lastUrl = lastUrl;
         this.output = output;
+        files = new ArrayList<>();
+    }
+
+    public void cancel() {
+        this.lastUrl = null;
+        this.output = null;
         files = new ArrayList<>();
     }
 

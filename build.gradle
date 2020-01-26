@@ -11,6 +11,16 @@ repositories {
     mavenCentral()
 }
 
+jar {
+    manifest {
+        attributes 'Main-Class' : 'me/martiii/downloadmergets/DownloadMergeTS'
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
 dependencies {
     implementation 'net.bramp.ffmpeg:ffmpeg:0.6.2'
 

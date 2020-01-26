@@ -23,7 +23,7 @@ public class DownloadThread extends Thread {
         this.downloadMergeTS = downloadMergeTS;
         toDownload = new ArrayList<>();
         this.callback = callback;
-        downloadDir = new File("download");
+        downloadDir = new File("DownloadMergeTS/download");
         if (!downloadDir.exists()) {
             downloadDir.mkdirs();
         }
@@ -52,7 +52,8 @@ public class DownloadThread extends Thread {
                         downloadMergeTS.log("Error getting url file name.");
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    downloadMergeTS.log(e.toString());
+                    downloadMergeTS.cancelDownloadAndMerge();
                 }
             } else {
                 synchronized (this) {
@@ -72,6 +73,10 @@ public class DownloadThread extends Thread {
         if (waiting) {
             notify();
         }
+    }
+
+    public synchronized void cancel() {
+        toDownload = new ArrayList<>();
     }
 
     public interface Callback {

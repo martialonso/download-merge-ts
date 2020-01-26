@@ -125,6 +125,7 @@ public class ParametersPanel extends JPanel {
         add(outputPanel, pc);
 
         startButton = new JButton("Download and merge");
+        startButton.setEnabled(false);
         startButton.addActionListener(actionEvent -> {
             if (!urlTextField.getText().isEmpty()) {
                 if (!outputTextField.getText().isEmpty()) {
