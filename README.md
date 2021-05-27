@@ -12,4 +12,5 @@ A compiled version of this project can be found [here](https://github.com/martia
    Set the URL to example.com/video/stream{num}.ts
 3. Set the `start` and `end` number and the `step` quantity
 4. Set the output file and click on `Download and merge`
-  
+
+<img src="download-merge-ts.png" alt="DownloadMergeTS" width="50%" />
