@@ -38,6 +38,8 @@ public class MergeThread extends Thread {
                     downloadMergeTS.log("Merging downloaded videos...");
                     FFmpeg ffmpeg = new FFmpeg("DownloadMergeTS/bin/ffmpeg.exe");
                     FFmpegBuilder builder = new FFmpegBuilder()
+                            .addExtraArgs("-safe")
+                            .addExtraArgs("0")
                             .setInput(listFile.getAbsolutePath())
                             .setFormat("concat")
                             .addOutput(output)

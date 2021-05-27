@@ -17,7 +17,7 @@ public class DownloadThread extends Thread {
     private List<String> toDownload;
     private Callback callback;
     private File downloadDir;
-    private Pattern fileNamePattern = Pattern.compile("(?<=/)[^/?]+(?=(\\?.*)*/*$)");
+    private Pattern fileNamePattern = Pattern.compile(".*://[^/]+(/.*)");
 
     public DownloadThread(DownloadMergeTS downloadMergeTS, Callback callback) {
         this.downloadMergeTS = downloadMergeTS;
@@ -44,7 +44,7 @@ public class DownloadThread extends Thread {
                     InputStream in = new URL(url).openStream();
                     Matcher matcher = fileNamePattern.matcher(url);
                     if (matcher.find()) {
-                        File target = new File(downloadDir, matcher.group());
+                        File target = new File(downloadDir, matcher.group(1).replace('/', '_'));
                         Files.copy(in, target.toPath(), StandardCopyOption.REPLACE_EXISTING);
                         in.close();
                         callback.downloaded(url, target);
